@@ -58,17 +58,16 @@ public class QueryCriteria {
         memory = builder.memory;
     }
 
+    public static QueryCriteria.Builder builder() {
+        return new QueryCriteria.Builder();
+    }
+
     public static class Builder {
 
         private AssetTypes.OperatingSystem os;
         private AssetTypes.CPU cpu;
         private Integer cores;
         private Integer memory;
-
-        public static Builder newInstance()
-        {
-            return new Builder();
-        }
 
         private Builder() {}
 

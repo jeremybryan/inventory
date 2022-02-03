@@ -73,17 +73,16 @@ public class Asset {
         memory = isPositive(builder.memory);
     }
 
-    public static class Builder {
+    public static Asset.Builder builder() {
+        return new Asset.Builder();
+    }
+
+    public static final class Builder {
 
         private AssetTypes.OperatingSystem os;
         private AssetTypes.CPU cpu;
         private Integer cores;
         private Integer memory;
-
-        public static Asset.Builder newInstance()
-        {
-            return new Asset.Builder();
-        }
 
         private Builder() {}
 

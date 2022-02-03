@@ -89,7 +89,7 @@ public class TestInventoryManager {
         //load inventory
         load32G12CoreInventory();
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().build();
+        QueryCriteria query = QueryCriteria.builder().build();
         List<Asset> results = inventory.search(query);
 
         // Since we defined no criteria, this should return the entire inventory of 9 assets
@@ -102,7 +102,7 @@ public class TestInventoryManager {
         //load inventory
         load32G12CoreInventory();
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCore(TWELVE_CORE)
                 .setMemory(THIRTYTWO_GB)
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
@@ -122,7 +122,7 @@ public class TestInventoryManager {
         //load inventory
         load32G12CoreInventory();
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCore(TWELVE_CORE)
                 .setMemory(THIRTYTWO_GB)
                 .setCPU(AssetTypes.CPU.AMD).build();
@@ -145,7 +145,7 @@ public class TestInventoryManager {
         inventory.addAsset(winXEON24128);
         inventory.addAsset(winAMD24128);
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCPU(AssetTypes.CPU.AMD).build();
 
         List<Asset> results = inventory.search(query);
@@ -164,7 +164,7 @@ public class TestInventoryManager {
         inventory.addAsset(winXEON24128);
         inventory.addAsset(macXEON48);
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setMemory(EIGHT_GB).build();
 
         List<Asset> results = inventory.search(query);
@@ -182,7 +182,7 @@ public class TestInventoryManager {
         inventory.addAsset(winXEON24128);
         inventory.addAsset(winAMD24128);
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCore(TWENTYFOUR_CORE).build();
 
         List<Asset> results = inventory.search(query);
@@ -201,7 +201,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON1232); //12 core
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().build();
+        QueryCriteria query = QueryCriteria.builder().build();
         Integer sum = inventory.totalCores(query);
 
         assertEquals(48, sum.intValue());
@@ -216,7 +216,7 @@ public class TestInventoryManager {
         inventory.addAsset(winXEON24128); //12 core
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().
+        QueryCriteria query = QueryCriteria.builder().
                 setCore(24).build();
 
         Integer sum = inventory.totalCores(query);
@@ -236,7 +236,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS).build();
 
         Integer sum = inventory.totalCores(query);
@@ -256,7 +256,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD).build();
 
@@ -277,7 +277,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCPU(AssetTypes.CPU.AMD).build();
 
         Integer sum = inventory.totalCores(query);
@@ -297,7 +297,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setMemory(128).build();
 
         Integer sum = inventory.totalCores(query);
@@ -313,7 +313,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON1232); //12 core
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().build();
+        QueryCriteria query = QueryCriteria.builder().build();
         Integer sum = inventory.totalMemory(query);
 
         assertEquals(192, sum.intValue());
@@ -326,7 +326,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON1232);
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().
+        QueryCriteria query = QueryCriteria.builder().
                 setOS(AssetTypes.OperatingSystem.MACOS).build();
         Integer sum = inventory.totalMemory(query);
 
@@ -341,7 +341,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON1232);
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
 
@@ -358,7 +358,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON1232);
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
 
         Integer sum = inventory.totalMemory(query);
@@ -375,7 +375,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON4128);
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCore(4).build();
 
         Integer sum = inventory.totalMemory(query);
@@ -392,7 +392,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON4128);
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setMemory(32).build();
 
         Integer sum = inventory.totalMemory(query);
@@ -409,7 +409,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON4128);
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().build();
+        QueryCriteria query = QueryCriteria.builder().build();
 
         Integer sum = inventory.minCores(query);
 
@@ -427,7 +427,7 @@ public class TestInventoryManager {
                 ONEHUNDREDTWENTYEIGHT_GB));
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
             .setOS(AssetTypes.OperatingSystem.LINUX)
             .setCPU(AssetTypes.CPU.APPLE_SILLICON)
             .build();
@@ -448,7 +448,7 @@ public class TestInventoryManager {
                 ONEHUNDREDTWENTYEIGHT_GB));
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().build();
+        QueryCriteria query = QueryCriteria.builder().build();
 
         Integer sum = inventory.maxCores(query);
 
@@ -465,7 +465,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64, ONEHUNDREDTWENTYEIGHT_GB));
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.LINUX)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON)
                 .build();
@@ -487,7 +487,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().build();
+        QueryCriteria query = QueryCriteria.builder().build();
 
         Integer sum = inventory.minMemory(query);
 
@@ -506,7 +506,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS).build();
 
         Integer sum = inventory.minMemory(query);
@@ -526,7 +526,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.LINUX)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
 
@@ -547,7 +547,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().build();
+        QueryCriteria query = QueryCriteria.builder().build();
 
         Integer sum = inventory.maxMemory(query);
 
@@ -566,7 +566,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS).build();
 
         Integer sum = inventory.maxMemory(query);
@@ -586,7 +586,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.LINUX)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
 
@@ -609,7 +609,7 @@ public class TestInventoryManager {
                 ONEHUNDREDTWENTYEIGHT_GB));
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance().build();
+        QueryCriteria query = QueryCriteria.builder().build();
 
         long totalAssets = inventory.totalAssets(query);
 
@@ -631,7 +631,7 @@ public class TestInventoryManager {
                 ONEHUNDREDTWENTYEIGHT_GB));
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
 
         long totalAssets = inventory.totalAssets(query);
@@ -653,7 +653,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setMemory(32).build();
 
         long totalAssets = inventory.totalAssets(query);
@@ -675,7 +675,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setCore(24).build();
 
         long totalAssets = inventory.totalAssets(query);
@@ -698,7 +698,7 @@ public class TestInventoryManager {
         inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT_GB));
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD)
                 .setCore(24)
@@ -724,7 +724,7 @@ public class TestInventoryManager {
                 ONEHUNDREDTWENTYEIGHT_GB));
 
 
-        QueryCriteria query = QueryCriteria.Builder.newInstance()
+        QueryCriteria query = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD)
                 .setCore(32)
@@ -749,14 +749,14 @@ public class TestInventoryManager {
         inventory.addAsset(asset2);
 
         // Criteria 1
-        QueryCriteria query1 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query1 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD)
                 .setCore(32)
                 .setMemory(ONEHUNDREDTWENTYEIGHT_GB).build();
 
         // Criteria 2
-        QueryCriteria query2 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query2 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON)
                 .setCore(24)
@@ -792,13 +792,13 @@ public class TestInventoryManager {
         inventory.addAsset(asset2);
 
         // Criteria 1
-        QueryCriteria query1 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query1 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD)
                 .setCore(32).build();
 
         // Criteria 2
-        QueryCriteria query2 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query2 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON)
                 .setCore(24).build();
@@ -833,13 +833,13 @@ public class TestInventoryManager {
         inventory.addAsset(asset2);
 
         // Criteria 1
-        QueryCriteria query1 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query1 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD)
                 .setMemory(ONEHUNDREDTWENTYEIGHT_GB).build();
 
         // Criteria 2
-        QueryCriteria query2 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query2 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON)
                 .setMemory(EIGHT_GB).build();
@@ -878,14 +878,14 @@ public class TestInventoryManager {
         inventory.addAsset(asset4);
 
         // Criteria 1
-        QueryCriteria query1 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query1 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD)
                 .setMemory(ONEHUNDREDTWENTYEIGHT_GB)
                 .setCore(THIRTYTWO_GB).build();
 
         // Criteria 2
-        QueryCriteria query2 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query2 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON)
                 .setMemory(EIGHT_GB)
@@ -923,14 +923,14 @@ public class TestInventoryManager {
         inventory.addAsset(asset4);
 
         // Criteria 1
-        QueryCriteria query1 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query1 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD)
                 .setMemory(ONEHUNDREDTWENTYEIGHT_GB)
                 .setCore(THIRTYTWO_GB).build();
 
         // Criteria 2
-        QueryCriteria query2 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query2 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON)
                 .setMemory(EIGHT_GB)
@@ -969,14 +969,14 @@ public class TestInventoryManager {
         inventory.addAsset(asset4);
 
         // Criteria 1
-        QueryCriteria query1 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query1 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS)
                 .setCPU(AssetTypes.CPU.AMD)
                 .setMemory(ONEHUNDREDTWENTYEIGHT_GB)
                 .setCore(THIRTYTWO_GB).build();
 
         // Criteria 2
-        QueryCriteria query2 = QueryCriteria.Builder.newInstance()
+        QueryCriteria query2 = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON)
                 .setMemory(EIGHT_GB)
@@ -1032,11 +1032,11 @@ public class TestInventoryManager {
         List<String> asset_ids = inventory.addAssets(assets);
 
         // Determine size of inventory
-        long size = inventory.totalAssets(QueryCriteria.Builder.newInstance().build());
+        long size = inventory.totalAssets(QueryCriteria.builder().build());
         assertEquals(4, size);
 
         //Query to delete the newest asset
-        QueryCriteria toDeleteQuery = QueryCriteria.Builder.newInstance()
+        QueryCriteria toDeleteQuery = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.LINUX)
                 .setCPU(AssetTypes.CPU.APPLE_SILLICON)
                 .setCore(TWENTYFOUR_CORE)
@@ -1052,16 +1052,16 @@ public class TestInventoryManager {
         assertEquals(assetToDelete.get(0), deletedAsset.get(0));
 
         //Verify size is now 3
-        long currentSize = inventory.totalAssets(QueryCriteria.Builder.newInstance().build());
+        long currentSize = inventory.totalAssets(QueryCriteria.builder().build());
         assertEquals(3, currentSize);
 
         //Delete based on multiple criteria
 
         //Query to delete the newest asset
-        QueryCriteria macQuery = QueryCriteria.Builder.newInstance()
+        QueryCriteria macQuery = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.MACOS).build();
 
-        QueryCriteria winQuery = QueryCriteria.Builder.newInstance()
+        QueryCriteria winQuery = QueryCriteria.builder()
                 .setOS(AssetTypes.OperatingSystem.WINDOWS).build();
 
         List<QueryCriteria> queryList = new ArrayList<>(asList(macQuery, winQuery));
@@ -1074,7 +1074,7 @@ public class TestInventoryManager {
         assertEquals(3, deletedAssetList.size());
 
         assertTrue(CollectionUtils.isEqualCollection(setToDelete, deletedAssetList));
-        long finalSize = inventory.totalAssets(QueryCriteria.Builder.newInstance().build());
+        long finalSize = inventory.totalAssets(QueryCriteria.builder().build());
         assertEquals(0, finalSize);
     }
 
@@ -1090,7 +1090,7 @@ public class TestInventoryManager {
         //Add the assets
         List<String> asset_ids = inventory.addAssets(assets);
 
-        long size = inventory.totalAssets(QueryCriteria.Builder.newInstance().build());
+        long size = inventory.totalAssets(QueryCriteria.builder().build());
         assertEquals(4, size);
 
         // Grab object by id
@@ -1103,7 +1103,7 @@ public class TestInventoryManager {
         assertEquals(foundAsset, deleteAsset1);
 
         //Verify the size
-        long new_size = inventory.totalAssets(QueryCriteria.Builder.newInstance().build());
+        long new_size = inventory.totalAssets(QueryCriteria.builder().build());
         assertEquals(3, new_size);
 
         // Dropping this id
@@ -1113,7 +1113,7 @@ public class TestInventoryManager {
         List<Asset> deletedAssetList = inventory.deleteAssetsByIds(asset_ids);
         assertEquals(3, deletedAssetList.size());
 
-        long final_size = inventory.totalAssets(QueryCriteria.Builder.newInstance().build());
+        long final_size = inventory.totalAssets(QueryCriteria.builder().build());
         assertEquals(0, final_size);
     }
 
@@ -1136,7 +1136,7 @@ public class TestInventoryManager {
 
     private static Asset getAsset(final AssetTypes.OperatingSystem os, final AssetTypes.CPU cpu, final Integer core,
                            final Integer memory) {
-        return Asset.Builder.newInstance()
+        return Asset.builder()
                 .setOS(os)
                 .setCPU(cpu)
                 .setCore(core)

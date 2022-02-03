@@ -4,9 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static inventory.data.Asset.Builder.newInstance;
-import static inventory.data.Asset.NON_NULL_MESSAGE;
-import static inventory.data.Asset.POSITIVE_ARG_MESSAGE;
+import static inventory.data.Asset.*;
 import static inventory.data.types.AssetTypes.CPU.APPLE_SILLICON;
 import static inventory.data.types.AssetTypes.OperatingSystem.MACOS;
 import static java.lang.Integer.valueOf;
@@ -21,7 +19,7 @@ public class TestAsset {
 
     @Test
     public void testAssetCreation() {
-        Asset asset = newInstance()
+        Asset asset = Asset.builder()
                 .setCore(FOUR)
                 .setMemory(TWELVE)
                 .setCPU(APPLE_SILLICON)
@@ -43,16 +41,16 @@ public class TestAsset {
         exceptionRule.expectMessage(NON_NULL_MESSAGE);
 
         //Attempt to create an asset with no cpu parameter
-        newInstance().setMemory(TWELVE).setCPU(APPLE_SILLICON).setOS(MACOS).build();
+        Asset.builder().setMemory(TWELVE).setCPU(APPLE_SILLICON).setOS(MACOS).build();
 
         //Attempt to create an asset with no memory parameter
-        newInstance().setCore(TWELVE).setCPU(APPLE_SILLICON).setOS(MACOS).build();
+        Asset.builder().setCore(TWELVE).setCPU(APPLE_SILLICON).setOS(MACOS).build();
 
         //Attempt to create an asset with no cpu parameter
-        newInstance().setMemory(TWELVE).setCore(FOUR).setOS(MACOS).build();
+        Asset.builder().setMemory(TWELVE).setCore(FOUR).setOS(MACOS).build();
 
         //Attempt to create an asset with no os parameter
-        newInstance().setMemory(TWELVE).setCore(FOUR).setCPU(APPLE_SILLICON).build();
+        Asset.builder().setMemory(TWELVE).setCore(FOUR).setCPU(APPLE_SILLICON).build();
     }
 
     @Test
@@ -60,8 +58,8 @@ public class TestAsset {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage(POSITIVE_ARG_MESSAGE);
 
-        newInstance().setCore(NEG_TWELVE).setMemory(FOUR).setCPU(APPLE_SILLICON).setOS(MACOS).build();
-        newInstance().setCore(FOUR).setMemory(NEG_TWELVE).setCPU(APPLE_SILLICON).setOS(MACOS).build();
+        Asset.builder().setCore(NEG_TWELVE).setMemory(FOUR).setCPU(APPLE_SILLICON).setOS(MACOS).build();
+        Asset.builder().setCore(FOUR).setMemory(NEG_TWELVE).setCPU(APPLE_SILLICON).setOS(MACOS).build();
     }
 
     @Test
@@ -69,7 +67,7 @@ public class TestAsset {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage(POSITIVE_ARG_MESSAGE);
 
-        newInstance().setCore(ZERO).setMemory(FOUR).setCPU(APPLE_SILLICON).setOS(MACOS).build();
-        newInstance().setCore(FOUR).setMemory(ZERO).setCPU(APPLE_SILLICON).setOS(MACOS).build();
+        Asset.builder().setCore(ZERO).setMemory(FOUR).setCPU(APPLE_SILLICON).setOS(MACOS).build();
+        Asset.builder().setCore(FOUR).setMemory(ZERO).setCPU(APPLE_SILLICON).setOS(MACOS).build();
     }
 }

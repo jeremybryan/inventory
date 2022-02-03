@@ -31,6 +31,10 @@ import static org.apache.commons.lang3.math.NumberUtils.min;
  * searching the inventory. An empty QueryCriteria object will simply return all
  * entries in the inventory.
  *
+ *
+ * Look at protecting the calls...adjusting the search to return 0 on empty or null criteria
+ * Define a return full inventory convenience method
+ *
  */
 public class DefaultInventory implements Inventory {
 
@@ -118,7 +122,7 @@ public class DefaultInventory implements Inventory {
 
     @Override
     public List<Asset> getFullInventory() {
-        return search(QueryCriteria.Builder.newInstance().build());
+        return search(QueryCriteria.builder().build());
     }
 
     /**
