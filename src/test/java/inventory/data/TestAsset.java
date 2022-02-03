@@ -12,7 +12,7 @@ import static inventory.data.types.AssetTypes.OperatingSystem.MACOS;
 import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 
-public class AssetTest {
+public class TestAsset {
 
     private static final int FOUR = 4;
     private static final int TWELVE = 12;

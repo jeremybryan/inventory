@@ -18,7 +18,7 @@ import static java.util.Arrays.asList;
 import static org.apache.commons.collections4.CollectionUtils.isEqualCollection;
 import static org.junit.Assert.*;
 
-public class InventoryManagerTest {
+public class TestInventoryManager {
 
     private Inventory inventory;
 
