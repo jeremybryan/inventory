@@ -22,7 +22,7 @@ buildNumber.properties
 # vim
 *~
 
-# Runtime data
+# Runtime inventory.data
 pids
 *.pid
 *.seed
