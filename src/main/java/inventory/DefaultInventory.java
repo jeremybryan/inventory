@@ -1,6 +1,5 @@
 package inventory;
 
-import com.sun.istack.internal.NotNull;
 import inventory.data.Asset;
 import inventory.query.QueryCriteria;
 
@@ -47,7 +46,7 @@ public class DefaultInventory implements Inventory {
     static final String NON_NULL_ARGUMENT = "Cannot add a null object to the inventory.";
 
     @Override
-    public String addAsset(@NotNull final Asset asset) {
+    public String addAsset(final Asset asset) {
         notNull(asset, NON_NULL_ARGUMENT);
         logger.info("addAsset:  " + asset);
         inventories.put(asset.getAssetId(), asset);
@@ -56,7 +55,7 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public List<String> addAssets(@NotNull final List<Asset> assets) {
+    public List<String> addAssets(final List<Asset> assets) {
         notNull(assets, NON_NULL_ARGUMENT);
         List<String> ids = new ArrayList<>();
 
@@ -68,7 +67,7 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public List<Asset> deleteAssets(@NotNull final QueryCriteria criteria) {
+    public List<Asset> deleteAssets(final QueryCriteria criteria) {
         if (inValidCriteria(criteria)) {
             logger.info("Input criteria is null, returning empty list");
             return new ArrayList<>();
@@ -79,7 +78,7 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public List<Asset> deleteAssets(@NotNull final List<QueryCriteria> criteria) {
+    public List<Asset> deleteAssets(final List<QueryCriteria> criteria) {
         if (inValidCriteria(criteria)) return new ArrayList<>();
 
         List<Asset> assets = new ArrayList<>();
@@ -92,7 +91,7 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public Optional<Asset> deleteAssetById(@NotNull final String asset_id) {
+    public Optional<Asset> deleteAssetById(final String asset_id) {
         Asset asset = null;
 
         logger.info("delete asset with id: " + asset_id);
@@ -105,7 +104,7 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public List<Asset> deleteAssetsByIds(@NotNull final List<String> asset_ids) {
+    public List<Asset> deleteAssetsByIds(final List<String> asset_ids) {
         List<Asset> deletedAssets = new ArrayList<>();
 
         logger.info("deleteAssetsByIds: deleting a list of assets by id");
@@ -356,7 +355,7 @@ public class DefaultInventory implements Inventory {
      * @return list of assets matching the query criteria
      * */
     @Override
-    public List<Asset> search(@NotNull final QueryCriteria criteria) {
+    public List<Asset> search(final QueryCriteria criteria) {
         if (criteria == null || criteria.isEmpty()) return new ArrayList<>();
 
         logger.info("search for assets matching criteria: " + criteria);
@@ -379,7 +378,7 @@ public class DefaultInventory implements Inventory {
      * @return list of assets matching the query criteria
      * */
     @Override
-    public List<Asset> search(@NotNull final List<QueryCriteria> criteria) {
+    public List<Asset> search(final List<QueryCriteria> criteria) {
         if (criteria == null) return new ArrayList<>();
 
         List<Asset> result = new ArrayList<>();
@@ -399,7 +398,7 @@ public class DefaultInventory implements Inventory {
      * @return int
      */
     @Override
-    public int totalAssets(@NotNull final List<QueryCriteria> criteria) {
+    public int totalAssets(final List<QueryCriteria> criteria) {
         int result = 0;
 
         if (criteria == null) {
@@ -422,7 +421,7 @@ public class DefaultInventory implements Inventory {
      * @return int
      */
     @Override
-    public int totalMemory(@NotNull final List<QueryCriteria> criteria) {
+    public int totalMemory(final List<QueryCriteria> criteria) {
         int result = 0;
 
         if (criteria == null) {
@@ -445,7 +444,7 @@ public class DefaultInventory implements Inventory {
      * @return int
      */
     @Override
-    public int totalCores(@NotNull final List<QueryCriteria> criteria) {
+    public int totalCores(final List<QueryCriteria> criteria) {
         int result = 0;
 
         // Short circuit is null
@@ -469,7 +468,7 @@ public class DefaultInventory implements Inventory {
      * @return int
      */
     @Override
-    public int maxMemory(@NotNull final List<QueryCriteria> criteria) {
+    public int maxMemory(final List<QueryCriteria> criteria) {
         int result = 0;
 
         if (criteria == null) {
@@ -492,7 +491,7 @@ public class DefaultInventory implements Inventory {
      * @return int
      */
     @Override
-    public int maxCores(@NotNull final List<QueryCriteria> criteria) {
+    public int maxCores(final List<QueryCriteria> criteria) {
         int result = 0;
 
         if (criteria == null) {
@@ -515,7 +514,7 @@ public class DefaultInventory implements Inventory {
      * @return int
      */
     @Override
-    public int minMemory(@NotNull final List<QueryCriteria> criteria) {
+    public int minMemory(final List<QueryCriteria> criteria) {
         // Set the initial value to the max integer
         int result = Integer.MAX_VALUE;
 
@@ -540,7 +539,7 @@ public class DefaultInventory implements Inventory {
      * @return int
      */
     @Override
-    public int minCores(@NotNull final List<QueryCriteria> criteria) {
+    public int minCores(final List<QueryCriteria> criteria) {
         // Set the initial value to the max integer
         int result = Integer.MAX_VALUE;
 

@@ -1,6 +1,5 @@
 package inventory;
 
-import com.sun.istack.internal.NotNull;
 import inventory.data.Asset;
 import inventory.query.QueryCriteria;
 
@@ -12,7 +11,7 @@ public interface Inventory {
     /** Basic asset creation and deletion methods **/
 
     // Must return the unique ID of the asset added
-    String addAsset(@NotNull final Asset asset);
+    String addAsset(final Asset asset);
 
     // Contract is to return the list unique IDs of the asset added
     List<String> addAssets(final List<Asset> assets);
