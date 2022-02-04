@@ -70,4 +70,9 @@ many objects were deleted or perhaps the IDs of the object(s) deleted.
 ##### Asset Types
 This approach made use of enums to define the CPU and Operating System types. There are otherwise this could be 
 done but this approach allowed for improved handling and safety.  This approach would accomodate adding new/different
-types with minimal impact to the overall implementation. 
+types with minimal impact to the overall implementation.
+
+##### Logging
+Simple logging was added to provide indication of activity. Currently this is all at the `info` level. This could and 
+should be adjusted when incorporated into an existing project to align with logging strategies for granularity 
+and volume. 
