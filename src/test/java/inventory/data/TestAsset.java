@@ -5,8 +5,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static inventory.data.Asset.*;
-import static inventory.data.types.AssetTypes.CPU.APPLE_SILLICON;
-import static inventory.data.types.AssetTypes.OperatingSystem.MACOS;
+import static inventory.data.types.CPU.APPLE_SILLICON;
+import static inventory.data.types.OperatingSystem.MACOS;
 import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 

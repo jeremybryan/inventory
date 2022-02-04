@@ -1,7 +1,8 @@
 package inventory;
 
 import inventory.data.Asset;
-import inventory.data.types.AssetTypes;
+import inventory.data.types.CPU;
+import inventory.data.types.OperatingSystem;
 import inventory.query.QueryCriteria;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Before;
@@ -36,23 +37,23 @@ public class TestInventoryManager {
     private static final int ONEHUNDREDTWENTYEIGHT = 128;
 
     // Set of mac assets
-    private Asset macAMD1232 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO);
-    private Asset macINTEL1232 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.INTEL, TWELVE, THIRTYTWO);
-    private Asset macXEON1232 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWELVE, THIRTYTWO);
-    private Asset macXEON48 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT);
+    private Asset macAMD1232 = getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO);
+    private Asset macINTEL1232 = getAsset(OperatingSystem.MACOS, CPU.INTEL, TWELVE, THIRTYTWO);
+    private Asset macXEON1232 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWELVE, THIRTYTWO);
+    private Asset macXEON48 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT);
 
     // Set of windows assets
-    private Asset winAMD1232 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO);
-    private Asset winINTEL1232 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.INTEL, TWELVE, THIRTYTWO);
-    private Asset winXEON1232 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWELVE, THIRTYTWO);
-    private Asset winXEON24128 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR, ONEHUNDREDTWENTYEIGHT);
-    private Asset winAMD24128 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR, ONEHUNDREDTWENTYEIGHT);
+    private Asset winAMD1232 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWELVE, THIRTYTWO);
+    private Asset winINTEL1232 = getAsset(OperatingSystem.WINDOWS, CPU.INTEL, TWELVE, THIRTYTWO);
+    private Asset winXEON1232 = getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWELVE, THIRTYTWO);
+    private Asset winXEON24128 = getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR, ONEHUNDREDTWENTYEIGHT);
+    private Asset winAMD24128 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR, ONEHUNDREDTWENTYEIGHT);
 
     // Set of linux assets
-    private Asset linuxAMD1232 = getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO);
-    private Asset linuxINTEL1232 = getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.INTEL, TWELVE, THIRTYTWO);
-    private Asset linuxXEON1232 = getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, TWELVE, THIRTYTWO);
-    private Asset linuxXEON4128 = getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, FOUR, ONEHUNDREDTWENTYEIGHT);
+    private Asset linuxAMD1232 = getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO);
+    private Asset linuxINTEL1232 = getAsset(OperatingSystem.LINUX, CPU.INTEL, TWELVE, THIRTYTWO);
+    private Asset linuxXEON1232 = getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, TWELVE, THIRTYTWO);
+    private Asset linuxXEON4128 = getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, FOUR, ONEHUNDREDTWENTYEIGHT);
 
 
     @Before
@@ -62,9 +63,9 @@ public class TestInventoryManager {
 
     @Test
     public void addAsset() {
-        Asset macAsset = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO);
-        Asset winAsset = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO);
-        Asset linAsset = getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO);
+        Asset macAsset = getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO);
+        Asset winAsset = getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWELVE, THIRTYTWO);
+        Asset linAsset = getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO);
 
         inventory.addAsset(macAsset);
         inventory.addAsset(winAsset);
@@ -108,16 +109,16 @@ public class TestInventoryManager {
         QueryCriteria query = QueryCriteria.builder()
                 .setCore(TWELVE)
                 .setMemory(THIRTYTWO)
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD).build();
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD).build();
 
         List<Asset> results = inventory.search(query);
         assertNotNull(results);
         assertEquals(ONE, results.size());
 
         Asset resultAsset = results.get(ZERO);
-        assertEquals(resultAsset.getOS(), AssetTypes.OperatingSystem.WINDOWS);
-        assertEquals(resultAsset.getCPU(), AssetTypes.CPU.AMD);
+        assertEquals(resultAsset.getOS(), OperatingSystem.WINDOWS);
+        assertEquals(resultAsset.getCPU(), CPU.AMD);
     }
 
     @Test
@@ -128,7 +129,7 @@ public class TestInventoryManager {
         QueryCriteria query = QueryCriteria.builder()
                 .setCore(TWELVE)
                 .setMemory(THIRTYTWO)
-                .setCPU(AssetTypes.CPU.AMD).build();
+                .setCPU(CPU.AMD).build();
 
         List<Asset> results = inventory.search(query);
         assertNotNull(results);
@@ -149,7 +150,7 @@ public class TestInventoryManager {
         inventory.addAsset(winAMD24128);
 
         QueryCriteria query = QueryCriteria.builder()
-                .setCPU(AssetTypes.CPU.AMD).build();
+                .setCPU(CPU.AMD).build();
 
         List<Asset> results = inventory.search(query);
 
@@ -227,18 +228,18 @@ public class TestInventoryManager {
 
     @Test
     public void testSumOfCoresAllWindowsAssets() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS).build();
+                .setOS(OperatingSystem.WINDOWS).build();
 
         int sum = inventory.totalCores(query);
 
@@ -247,19 +248,19 @@ public class TestInventoryManager {
 
     @Test
     public void testSumOfCoresAllWindowsAmdAssets() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD).build();
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD).build();
 
         int sum = inventory.totalCores(query);
 
@@ -268,18 +269,18 @@ public class TestInventoryManager {
 
     @Test
     public void testSumOfCoresAllAmdAssets() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
-                .setCPU(AssetTypes.CPU.AMD).build();
+                .setCPU(CPU.AMD).build();
 
         int sum = inventory.totalCores(query);
 
@@ -288,14 +289,14 @@ public class TestInventoryManager {
 
     @Test
     public void testSumOfCoresAll128MemoryAssets() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
@@ -326,7 +327,7 @@ public class TestInventoryManager {
 
 
         QueryCriteria query = QueryCriteria.builder().
-                setOS(AssetTypes.OperatingSystem.MACOS).build();
+                setOS(OperatingSystem.MACOS).build();
         int sum = inventory.totalMemory(query);
 
         assertEquals(THIRTYTWO, sum);
@@ -341,8 +342,8 @@ public class TestInventoryManager {
 
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
+                .setOS(OperatingSystem.MACOS)
+                .setCPU(CPU.APPLE_SILLICON).build();
 
         int sum = inventory.totalMemory(query);
 
@@ -358,7 +359,7 @@ public class TestInventoryManager {
 
 
         QueryCriteria query = QueryCriteria.builder()
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
+                .setCPU(CPU.APPLE_SILLICON).build();
 
         int sum = inventory.totalMemory(query);
 
@@ -419,13 +420,13 @@ public class TestInventoryManager {
         inventory.addAsset(macXEON48);
         inventory.addAsset(linuxXEON1232);
         inventory.addAsset(linuxXEON4128);
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
 
         QueryCriteria query = QueryCriteria.builder()
-            .setOS(AssetTypes.OperatingSystem.LINUX)
-            .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+            .setOS(OperatingSystem.LINUX)
+            .setCPU(CPU.APPLE_SILLICON)
             .build();
 
         int sum = inventory.minCores(query);
@@ -440,7 +441,7 @@ public class TestInventoryManager {
         inventory.addAsset(macXEON48);
         inventory.addAsset(linuxXEON1232);
         inventory.addAsset(linuxXEON4128);
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         int sum = inventory.maxCores();
@@ -455,12 +456,12 @@ public class TestInventoryManager {
         inventory.addAsset(macXEON48);
         inventory.addAsset(linuxXEON1232);
         inventory.addAsset(linuxXEON4128);
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR, ONEHUNDREDTWENTYEIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR, ONEHUNDREDTWENTYEIGHT));
 
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.LINUX)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+                .setOS(OperatingSystem.LINUX)
+                .setCPU(CPU.APPLE_SILLICON)
                 .build();
 
         int sum = inventory.maxCores(query);
@@ -470,14 +471,14 @@ public class TestInventoryManager {
 
     @Test
     public void testMinMemory() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
        int sum = inventory.minMemory();
@@ -487,18 +488,18 @@ public class TestInventoryManager {
 
     @Test
     public void testMinMemoryForMacAssets() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS).build();
+                .setOS(OperatingSystem.MACOS).build();
 
         int sum = inventory.minMemory(query);
 
@@ -507,19 +508,19 @@ public class TestInventoryManager {
 
     @Test
     public void testMinMemoryForLinuxXeonAssets() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.LINUX)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
+                .setOS(OperatingSystem.LINUX)
+                .setCPU(CPU.APPLE_SILLICON).build();
 
         int sum = inventory.minMemory(query);
 
@@ -528,14 +529,14 @@ public class TestInventoryManager {
 
     @Test
     public void testMaxMemory() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         int sum = inventory.maxMemory();
@@ -545,18 +546,18 @@ public class TestInventoryManager {
 
     @Test
     public void testMaxMemoryForMacAssets() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS).build();
+                .setOS(OperatingSystem.MACOS).build();
 
         int sum = inventory.maxMemory(query);
 
@@ -565,19 +566,19 @@ public class TestInventoryManager {
 
     @Test
     public void testMaxMemoryForLinuxXeonAssets() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.LINUX)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
+                .setOS(OperatingSystem.LINUX)
+                .setCPU(CPU.APPLE_SILLICON).build();
 
         int sum = inventory.maxMemory(query);
 
@@ -587,14 +588,14 @@ public class TestInventoryManager {
 
     @Test
     public void testCountOfAll() {
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         int totalAssets = inventory.getFullInventorySize();
@@ -606,19 +607,19 @@ public class TestInventoryManager {
     public void testCountAllOfOneCPU() {
         //We are testing for APPLE_SILLICON ... the inventory load adds 3 assets that match
         load32G12CoreInventory();
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, 64,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, 64,
                 ONEHUNDREDTWENTYEIGHT));
 
 
         QueryCriteria query = QueryCriteria.builder()
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON).build();
+                .setCPU(CPU.APPLE_SILLICON).build();
 
         int totalAssets = inventory.totalAssets(query);
 
@@ -629,14 +630,14 @@ public class TestInventoryManager {
     public void testCountOfAllOneMemory() {
         //We are testing for 32GB ... the inventory load adds 9 assets that match
         load32G12CoreInventory();
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
@@ -651,14 +652,14 @@ public class TestInventoryManager {
     public void testCountAllOfOneCoreSize() {
         //We are testing for 24 Core ... the inventory load adds 0 assets that match
         load32G12CoreInventory();
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
@@ -674,19 +675,19 @@ public class TestInventoryManager {
         //We are testing for 24 Core ... the inventory load adds 0 assets that match
         load32G12CoreInventory();
 
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD)
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD)
                 .setCore(TWENTYFOUR)
                 .setMemory(ONEHUNDREDTWENTYEIGHT).build();
 
@@ -699,20 +700,20 @@ public class TestInventoryManager {
     public void testTotalAssetsWinAMD32Core128MemoryFindNone() {
         //We are testing for 24 Core ... the inventory load adds 0 assets that match
         load32G12CoreInventory();
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, EIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.AMD, TWELVE, THIRTYTWO));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWENTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, EIGHT));
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.AMD, TWELVE, THIRTYTWO));
+        inventory.addAsset(getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
-        inventory.addAsset(getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, SIXTYFOUR,
+        inventory.addAsset(getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, SIXTYFOUR,
                 ONEHUNDREDTWENTYEIGHT));
 
 
         QueryCriteria query = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD)
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD)
                 .setCore(THIRTYTWO)
                 .setMemory(ONEHUNDREDTWENTYEIGHT).build();
 
@@ -726,9 +727,9 @@ public class TestInventoryManager {
         //We are testing for 24 Core ... the inventory load adds 0 assets that match
         load32G12CoreInventory();
 
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, THIRTYTWO,
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, THIRTYTWO,
                 ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 ONEHUNDREDTWENTYEIGHT);
 
         inventory.addAsset(asset1);
@@ -736,15 +737,15 @@ public class TestInventoryManager {
 
         // Criteria 1
         QueryCriteria query1 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD)
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD)
                 .setCore(THIRTYTWO)
                 .setMemory(ONEHUNDREDTWENTYEIGHT).build();
 
         // Criteria 2
         QueryCriteria query2 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+                .setOS(OperatingSystem.MACOS)
+                .setCPU(CPU.APPLE_SILLICON)
                 .setCore(TWENTYFOUR)
                 .setMemory(ONEHUNDREDTWENTYEIGHT).build();
 
@@ -769,9 +770,9 @@ public class TestInventoryManager {
         //We are testing for 24 Core ... the inventory load adds 0 assets that match
         load32G12CoreInventory();
 
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, THIRTYTWO,
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, THIRTYTWO,
                 ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
 
         inventory.addAsset(asset1);
@@ -779,14 +780,14 @@ public class TestInventoryManager {
 
         // Criteria 1
         QueryCriteria query1 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD)
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD)
                 .setCore(THIRTYTWO).build();
 
         // Criteria 2
         QueryCriteria query2 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+                .setOS(OperatingSystem.MACOS)
+                .setCPU(CPU.APPLE_SILLICON)
                 .setCore(TWENTYFOUR).build();
 
 
@@ -810,9 +811,9 @@ public class TestInventoryManager {
         //Tests max and min core for multiple criteria
         load32G12CoreInventory();
 
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, THIRTYTWO,
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, THIRTYTWO,
                 ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
 
         inventory.addAsset(asset1);
@@ -820,14 +821,14 @@ public class TestInventoryManager {
 
         // Criteria 1
         QueryCriteria query1 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD)
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD)
                 .setMemory(ONEHUNDREDTWENTYEIGHT).build();
 
         // Criteria 2
         QueryCriteria query2 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+                .setOS(OperatingSystem.MACOS)
+                .setCPU(CPU.APPLE_SILLICON)
                 .setMemory(EIGHT).build();
 
 
@@ -848,13 +849,13 @@ public class TestInventoryManager {
 
     @Test
     public void testTotalCoreMultipleCriteria() {
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, THIRTYTWO,
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, THIRTYTWO,
                 ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
-        Asset asset3 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset3 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
-        Asset asset4 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset4 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
 
         inventory.addAsset(asset1);
@@ -864,15 +865,15 @@ public class TestInventoryManager {
 
         // Criteria 1
         QueryCriteria query1 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD)
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD)
                 .setMemory(ONEHUNDREDTWENTYEIGHT)
                 .setCore(THIRTYTWO).build();
 
         // Criteria 2
         QueryCriteria query2 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+                .setOS(OperatingSystem.MACOS)
+                .setCPU(CPU.APPLE_SILLICON)
                 .setMemory(EIGHT)
                 .setCore(TWENTYFOUR).build();
 
@@ -891,13 +892,13 @@ public class TestInventoryManager {
 
     @Test
     public void testTotalMemoryMultipleCriteria() {
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, THIRTYTWO,
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, THIRTYTWO,
                 ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
-        Asset asset3 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset3 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
-        Asset asset4 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset4 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
 
         inventory.addAsset(asset1);
@@ -907,15 +908,15 @@ public class TestInventoryManager {
 
         // Criteria 1
         QueryCriteria query1 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD)
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD)
                 .setMemory(ONEHUNDREDTWENTYEIGHT)
                 .setCore(THIRTYTWO).build();
 
         // Criteria 2
         QueryCriteria query2 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+                .setOS(OperatingSystem.MACOS)
+                .setCPU(CPU.APPLE_SILLICON)
                 .setMemory(EIGHT)
                 .setCore(TWENTYFOUR).build();
 
@@ -934,13 +935,13 @@ public class TestInventoryManager {
 
     @Test
     public void testTotalAssetsMultipleCriteria() {
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, THIRTYTWO,
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, THIRTYTWO,
                 ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
-        Asset asset3 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset3 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
-        Asset asset4 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset4 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
 
         inventory.addAsset(asset1);
@@ -950,15 +951,15 @@ public class TestInventoryManager {
 
         // Criteria 1
         QueryCriteria query1 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS)
-                .setCPU(AssetTypes.CPU.AMD)
+                .setOS(OperatingSystem.WINDOWS)
+                .setCPU(CPU.AMD)
                 .setMemory(ONEHUNDREDTWENTYEIGHT)
                 .setCore(THIRTYTWO).build();
 
         // Criteria 2
         QueryCriteria query2 = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+                .setOS(OperatingSystem.MACOS)
+                .setCPU(CPU.APPLE_SILLICON)
                 .setMemory(EIGHT)
                 .setCore(TWENTYFOUR).build();
 
@@ -977,13 +978,13 @@ public class TestInventoryManager {
 
     @Test
     public void testAddAssets() {
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, THIRTYTWO,
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, THIRTYTWO,
                 ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
-        Asset asset3 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset3 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
-        Asset asset4 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR,
+        Asset asset4 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, TWENTYFOUR,
                 EIGHT);
 
         String assetId = inventory.addAsset(asset1);
@@ -1001,7 +1002,7 @@ public class TestInventoryManager {
 
     @Test
     public void testDeleteAssetWithNull() {
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWO, ONEHUNDREDTWENTYEIGHT);
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWO, ONEHUNDREDTWENTYEIGHT);
 
         List<Asset> assets = new ArrayList<>(singletonList(asset1));
 
@@ -1025,10 +1026,10 @@ public class TestInventoryManager {
 
     @Test
     public void testDeleteAssetWithCriteria() {
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWO, ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.INTEL, TWELVE, EIGHT);
-        Asset asset3 = getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR, SIXTYFOUR);
-        Asset asset4 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, THIRTYTWO);
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWO, ONEHUNDREDTWENTYEIGHT);
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.INTEL, TWELVE, EIGHT);
+        Asset asset3 = getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, TWENTYFOUR, SIXTYFOUR);
+        Asset asset4 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, THIRTYTWO);
 
         List<Asset> assets = new ArrayList<>(asList(asset3, asset4, asset1, asset2));
 
@@ -1041,8 +1042,8 @@ public class TestInventoryManager {
 
         //Query to delete the newest asset
         QueryCriteria toDeleteQuery = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.LINUX)
-                .setCPU(AssetTypes.CPU.APPLE_SILLICON)
+                .setOS(OperatingSystem.LINUX)
+                .setCPU(CPU.APPLE_SILLICON)
                 .setCore(TWENTYFOUR)
                 .setMemory(SIXTYFOUR).build();
 
@@ -1063,10 +1064,10 @@ public class TestInventoryManager {
 
         //Query to delete the newest asset
         QueryCriteria macQuery = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.MACOS).build();
+                .setOS(OperatingSystem.MACOS).build();
 
         QueryCriteria winQuery = QueryCriteria.builder()
-                .setOS(AssetTypes.OperatingSystem.WINDOWS).build();
+                .setOS(OperatingSystem.WINDOWS).build();
 
         List<QueryCriteria> queryList = new ArrayList<>(asList(macQuery, winQuery));
 
@@ -1084,10 +1085,10 @@ public class TestInventoryManager {
 
     @Test
     public void testDeleteListAssetById() {
-        Asset asset1 = getAsset(AssetTypes.OperatingSystem.WINDOWS, AssetTypes.CPU.AMD, TWO, ONEHUNDREDTWENTYEIGHT);
-        Asset asset2 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.INTEL, TWELVE, EIGHT);
-        Asset asset3 = getAsset(AssetTypes.OperatingSystem.LINUX, AssetTypes.CPU.APPLE_SILLICON, TWENTYFOUR, SIXTYFOUR);
-        Asset asset4 = getAsset(AssetTypes.OperatingSystem.MACOS, AssetTypes.CPU.APPLE_SILLICON, FOUR, THIRTYTWO);
+        Asset asset1 = getAsset(OperatingSystem.WINDOWS, CPU.AMD, TWO, ONEHUNDREDTWENTYEIGHT);
+        Asset asset2 = getAsset(OperatingSystem.MACOS, CPU.INTEL, TWELVE, EIGHT);
+        Asset asset3 = getAsset(OperatingSystem.LINUX, CPU.APPLE_SILLICON, TWENTYFOUR, SIXTYFOUR);
+        Asset asset4 = getAsset(OperatingSystem.MACOS, CPU.APPLE_SILLICON, FOUR, THIRTYTWO);
 
         List<Asset> assets = new ArrayList<>(asList(asset3, asset4, asset1, asset2));
 
@@ -1138,7 +1139,7 @@ public class TestInventoryManager {
         inventory.addAsset(linuxXEON1232);
     }
 
-    private static Asset getAsset(final AssetTypes.OperatingSystem os, final AssetTypes.CPU cpu, final Integer core,
+    private static Asset getAsset(final OperatingSystem os, final CPU cpu, final Integer core,
                            final Integer memory) {
         return Asset.builder()
                 .setOS(os)

@@ -2,8 +2,8 @@ package inventory.query;
 
 import org.junit.Test;
 
-import static inventory.data.types.AssetTypes.CPU.APPLE_SILLICON;
-import static inventory.data.types.AssetTypes.OperatingSystem.MACOS;
+import static inventory.data.types.CPU.APPLE_SILLICON;
+import static inventory.data.types.OperatingSystem.MACOS;
 import static org.junit.Assert.*;
 
 public class QueryCriteriaTest {

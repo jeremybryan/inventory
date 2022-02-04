@@ -1,6 +1,7 @@
 package inventory.data;
 
-import inventory.data.types.AssetTypes;
+import inventory.data.types.CPU;
+import inventory.data.types.OperatingSystem;
 
 import java.util.UUID;
 
@@ -15,8 +16,8 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class Asset {
 
     private final String assetId;
-    private final AssetTypes.OperatingSystem os;
-    private final AssetTypes.CPU cpu;
+    private final OperatingSystem os;
+    private final CPU cpu;
     private final Integer cores;
     private final Integer memory;
 
@@ -27,7 +28,7 @@ public class Asset {
 
     public String getAssetId() { return assetId; }
 
-    public AssetTypes.CPU getCPU() {
+    public CPU getCPU() {
         return cpu;
     }
 
@@ -39,7 +40,7 @@ public class Asset {
         return memory;
     }
 
-    public AssetTypes.OperatingSystem getOS() { return os; }
+    public OperatingSystem getOS() { return os; }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -79,21 +80,21 @@ public class Asset {
 
     public static final class Builder {
 
-        private AssetTypes.OperatingSystem os;
-        private AssetTypes.CPU cpu;
+        private OperatingSystem os;
+        private CPU cpu;
         private Integer cores;
         private Integer memory;
 
         private Builder() {}
 
         // Setter methods
-        public Asset.Builder setOS(AssetTypes.OperatingSystem os)
+        public Asset.Builder setOS(OperatingSystem os)
         {
             this.os = os;
             return this;
         }
 
-        public Asset.Builder setCPU(AssetTypes.CPU cpu)
+        public Asset.Builder setCPU(CPU cpu)
         {
             this.cpu = cpu;
             return this;

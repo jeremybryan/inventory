@@ -1,6 +1,7 @@
 package inventory.query;
 
-import inventory.data.types.AssetTypes;
+import inventory.data.types.CPU;
+import inventory.data.types.OperatingSystem;
 
 import java.util.Optional;
 
@@ -16,17 +17,17 @@ import static java.util.Optional.ofNullable;
  */
 public class QueryCriteria {
 
-    private final AssetTypes.OperatingSystem os;
-    private final AssetTypes.CPU cpu;
+    private final OperatingSystem os;
+    private final CPU cpu;
     private final Integer cores;
     private final Integer memory;
 
 
-    public Optional<AssetTypes.OperatingSystem> getOs() {
+    public Optional<OperatingSystem> getOs() {
         return ofNullable(os);
     }
 
-    public Optional<AssetTypes.CPU> getCpu() {
+    public Optional<CPU> getCpu() {
         return ofNullable(cpu);
     }
 
@@ -71,20 +72,20 @@ public class QueryCriteria {
 
     public static class Builder {
 
-        private AssetTypes.OperatingSystem os;
-        private AssetTypes.CPU cpu;
+        private OperatingSystem os;
+        private CPU cpu;
         private Integer cores;
         private Integer memory;
 
         private Builder() {}
 
         // Setter methods
-        public Builder setOS(AssetTypes.OperatingSystem os)
+        public Builder setOS(OperatingSystem os)
         {
             this.os = os;
             return this;
         }
-        public Builder setCPU(AssetTypes.CPU cpu)
+        public Builder setCPU(CPU cpu)
         {
             this.cpu = cpu;
             return this;
