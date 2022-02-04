@@ -1,5 +1,6 @@
 package inventory;
 
+import com.sun.istack.internal.NotNull;
 import inventory.data.Asset;
 import inventory.query.QueryCriteria;
 
@@ -9,37 +10,62 @@ import java.util.Optional;
 public interface Inventory {
 
     /** Basic asset creation and deletion methods **/
-    String addAsset(final Asset asset);
 
+    // Must return the unique ID of the asset added
+    String addAsset(@NotNull final Asset asset);
+
+    // Contract is to return the list unique IDs of the asset added
     List<String> addAssets(final List<Asset> assets);
 
     Optional<Asset> getAssetById(final String asset_id);
 
+    // Must return list of assets or empty list
     List<Asset> deleteAssets(final QueryCriteria criteria);
 
+    // Must return list of assets or empty list
     List<Asset> deleteAssets(final List<QueryCriteria> criteria);
 
+    // Must return asset that was deleted
     Optional<Asset> deleteAssetById(final String assetId);
 
+    // Must return list of assets or empty list
     List<Asset> deleteAssetsByIds(final List<String> assetId);
 
     /* Since query criteria inventory search and convenience methods */
+
+    // Must return list of assets or empty list (if inventory is empty)
     List<Asset> getFullInventory();
 
-    Integer totalMemory(final QueryCriteria criteria);
+    // Must return list of assets or empty list (if inventory is empty)
+    int getFullInventorySize();
 
-    Integer totalCores(final QueryCriteria criteria);
+    int totalMemory();
 
-    Integer maxMemory(final QueryCriteria criteria);
+    int totalMemory(final QueryCriteria criteria);
 
-    Integer maxCores(final QueryCriteria criteria);
+    int totalCores();
 
-    Integer minMemory(final QueryCriteria criteria);
+    int totalCores(final QueryCriteria criteria);
 
-    Integer minCores(final QueryCriteria criteria);
+    int maxMemory();
 
-    long totalAssets(final QueryCriteria criteria);
+    int maxMemory(final QueryCriteria criteria);
 
+    int maxCores();
+
+    int maxCores(final QueryCriteria criteria);
+
+    int minMemory();
+
+    int minMemory(final QueryCriteria criteria);
+
+    int minCores();
+
+    int minCores(final QueryCriteria criteria);
+
+    int totalAssets(final QueryCriteria criteria);
+
+    // Must return list of assets matching query or empty list
     List<Asset> search(final QueryCriteria criteria);
 
 
@@ -51,19 +77,21 @@ public interface Inventory {
      * macOS, Apple Silicon, 2 core and 32 GB of memory
      *
      */
+
+    // Must return list of assets matching query or empty list
     List<Asset> search(final List<QueryCriteria> criteria);
 
-    long totalAssets(final List<QueryCriteria> criteria);
+    int totalAssets(final List<QueryCriteria> criteria);
 
-    Integer totalMemory(final List<QueryCriteria> criteria);
+    int totalMemory(final List<QueryCriteria> criteria);
 
-    Integer totalCores(final List<QueryCriteria> criteria);
+    int totalCores(final List<QueryCriteria> criteria);
 
-    Integer maxMemory(final List<QueryCriteria> criteria);
+    int maxMemory(final List<QueryCriteria> criteria);
 
-    Integer maxCores(final List<QueryCriteria> criteria);
+    int maxCores(final List<QueryCriteria> criteria);
 
-    Integer minMemory(final List<QueryCriteria> criteria);
+    int minMemory(final List<QueryCriteria> criteria);
 
-    Integer minCores(final List<QueryCriteria> criteria);
+    int minCores(final List<QueryCriteria> criteria);
 }

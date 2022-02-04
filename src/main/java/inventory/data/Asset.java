@@ -87,25 +87,25 @@ public class Asset {
         private Builder() {}
 
         // Setter methods
-        public Asset.Builder setOS(final AssetTypes.OperatingSystem os)
+        public Asset.Builder setOS(AssetTypes.OperatingSystem os)
         {
             this.os = os;
             return this;
         }
 
-        public Asset.Builder setCPU(final AssetTypes.CPU cpu)
+        public Asset.Builder setCPU(AssetTypes.CPU cpu)
         {
             this.cpu = cpu;
             return this;
         }
 
-        public Asset.Builder setCore(final Integer cores)
+        public Asset.Builder setCore(Integer cores)
         {
             this.cores = cores;
             return this;
         }
 
-        public Asset.Builder setMemory(final Integer memory)
+        public Asset.Builder setMemory(Integer memory)
         {
             this.memory = memory;
             return this;

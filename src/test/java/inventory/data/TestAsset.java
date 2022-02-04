@@ -26,7 +26,7 @@ public class TestAsset {
                 .setOS(MACOS)
                 .build();
 
-        assertEquals(valueOf(4), asset.getCores());
+        assertEquals(valueOf(FOUR), asset.getCores());
         assertEquals(valueOf(TWELVE), asset.getMemory());
         assertEquals(APPLE_SILLICON, asset.getCPU());
         assertEquals(MACOS, asset.getOS());

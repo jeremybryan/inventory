@@ -1,5 +1,6 @@
 package inventory;
 
+import com.sun.istack.internal.NotNull;
 import inventory.data.Asset;
 import inventory.query.QueryCriteria;
 
@@ -28,9 +29,9 @@ import static org.apache.commons.lang3.math.NumberUtils.min;
  * CPU, Operating System, Number of Cores, Memory
  *
  * The implementation relies a QueryCriteria object to define the parameters for
- * searching the inventory. An empty QueryCriteria object will simply return all
- * entries in the inventory.
+ * searching the inventory.
  *
+ * Empty query objects return empty results list, no search is performed in these cases.
  *
  * Look at protecting the calls...adjusting the search to return 0 on empty or null criteria
  * Define a return full inventory convenience method
@@ -43,10 +44,10 @@ public class DefaultInventory implements Inventory {
 
     private Logger logger = Logger.getLogger(DefaultInventory.class.getName());
 
-    static final String NON_NULL_ARGUMENT = "Argument must not be null";
+    static final String NON_NULL_ARGUMENT = "Cannot add a null object to the inventory.";
 
     @Override
-    public String addAsset(final Asset asset) {
+    public String addAsset(@NotNull final Asset asset) {
         notNull(asset, NON_NULL_ARGUMENT);
         logger.info("addAsset:  " + asset);
         inventories.put(asset.getAssetId(), asset);
@@ -55,7 +56,7 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public List<String> addAssets(final List<Asset> assets) {
+    public List<String> addAssets(@NotNull final List<Asset> assets) {
         notNull(assets, NON_NULL_ARGUMENT);
         List<String> ids = new ArrayList<>();
 
@@ -67,16 +68,22 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public List<Asset> deleteAssets(final QueryCriteria criteria) {
-        logger.info("deleteAssets: criteria " + criteria);
+    public List<Asset> deleteAssets(@NotNull final QueryCriteria criteria) {
+        if (inValidCriteria(criteria)) {
+            logger.info("Input criteria is null, returning empty list");
+            return new ArrayList<>();
+        }
+
+        logger.info("deleteAssets matching " + criteria);
         return deleteFromInventory(criteria);
     }
 
     @Override
-    public List<Asset> deleteAssets(final List<QueryCriteria> criteria) {
-        List<Asset> assets = new ArrayList<>();
+    public List<Asset> deleteAssets(@NotNull final List<QueryCriteria> criteria) {
+        if (inValidCriteria(criteria)) return new ArrayList<>();
 
-        logger.info("deleteAssets: Deleting a list of assets by criteria" );
+        List<Asset> assets = new ArrayList<>();
+        logger.info("Deleting a list of assets matching list of criteria" );
         for (QueryCriteria c : criteria) {
             assets.addAll(deleteAssets(c));
         }
@@ -85,10 +92,10 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public Optional<Asset> deleteAssetById(final String asset_id) {
+    public Optional<Asset> deleteAssetById(@NotNull final String asset_id) {
         Asset asset = null;
 
-        logger.info("deleteAssetById: " + asset_id);
+        logger.info("delete asset with id: " + asset_id);
         if (inventories.containsKey(asset_id)) {
             asset = inventories.get(asset_id);
             inventories.remove(asset_id);
@@ -98,7 +105,7 @@ public class DefaultInventory implements Inventory {
     }
 
     @Override
-    public List<Asset> deleteAssetsByIds(final List<String> asset_ids) {
+    public List<Asset> deleteAssetsByIds(@NotNull final List<String> asset_ids) {
         List<Asset> deletedAssets = new ArrayList<>();
 
         logger.info("deleteAssetsByIds: deleting a list of assets by id");
@@ -122,7 +129,30 @@ public class DefaultInventory implements Inventory {
 
     @Override
     public List<Asset> getFullInventory() {
-        return search(QueryCriteria.builder().build());
+        // Mimics obtaining the full inventory
+        List<Map.Entry<String, Asset>> resultList = filterAssets(QueryCriteria.builder().build());
+
+        return assetsList(resultList);
+    }
+
+    @Override
+    public int getFullInventorySize() {
+        // Mimics obtaining the full inventory
+        List<Map.Entry<String, Asset>> resultList = filterAssets(QueryCriteria.builder().build());
+
+        return assetsList(resultList).size();
+    }
+
+    /**
+     * Convenience method to obtain the total memory for the entire inventory
+     * without having to construct a query object list.
+     *
+     * @return int
+     */
+    @Override
+    public int totalMemory() {
+        logger.info("totalMemory for entire inventory");
+        return getFullInventory().stream().mapToInt(Asset::getMemory).sum();
     }
 
     /**
@@ -138,11 +168,21 @@ public class DefaultInventory implements Inventory {
      * @return Integer - the total memory across all assets in the inventory meeting the defined criteria
      */
     @Override
-    public Integer totalMemory(final QueryCriteria criteria) {
-        logger.info("totalMemory " + criteria);
-        return search(criteria).stream()
-                .mapToInt(Asset::getMemory)
-                .sum();
+    public int totalMemory(final QueryCriteria criteria) {
+        logger.info("totalMemory for criteria: " + criteria);
+        return search(criteria).stream().mapToInt(Asset::getMemory).sum();
+    }
+
+    /**
+     * Convenience method to obtain the total cores for the entire inventory
+     * without having to construct a query object list.
+     *
+     * @return int
+     */
+    @Override
+    public int totalCores() {
+        logger.info("totalCores for entire inventory");
+        return getFullInventory().stream().mapToInt(Asset::getCores).sum();
     }
 
     /**
@@ -158,7 +198,7 @@ public class DefaultInventory implements Inventory {
      * @return Integer - the total cores across all assets in the inventory meeting the defined criteria
      */
     @Override
-    public Integer totalCores(final QueryCriteria criteria) {
+    public int totalCores(final QueryCriteria criteria) {
         logger.info("totalCores " + criteria);
         return search(criteria).stream()
                 .mapToInt(Asset::getCores)
@@ -176,24 +216,45 @@ public class DefaultInventory implements Inventory {
      * @return long - total count of assets matching the criteria
      */
     @Override
-    public long totalAssets(final QueryCriteria criteria) {
-        logger.info("totalAssets " + criteria);
-        return search(criteria)
-                .stream()
-                .count();
+    public int totalAssets(final QueryCriteria criteria) {
+        logger.info("totaling assets matching criteria: " + criteria);
+        return search(criteria).size();
     }
 
+    /**
+     * Convenience method to obtain the maxMemory for the entire inventory
+     * without having to construct a query object list.
+     *
+     * @return int
+     */
     @Override
-    public Integer maxMemory(final QueryCriteria criteria) {
+    public int maxMemory() {
+        logger.info("maxMemory for entire inventory");
+        return getFullInventory().stream().mapToInt(Asset::getMemory).max().orElse(0);
+    }
+
+
+    @Override
+    public int maxMemory(final QueryCriteria criteria) {
         logger.info("maxMemory " + criteria);
-        return search(criteria)
-                .stream()
-                .mapToInt(Asset::getMemory)
-                .max().orElse(0);
+        return search(criteria).stream().mapToInt(Asset::getMemory).max().orElse(0);
     }
 
+    /**
+     * Convenience method to obtain the maxCores for the entire inventory
+     * without having to construct a query object list.
+     *
+     * @return int
+     */
     @Override
-    public Integer maxCores(final QueryCriteria criteria) {
+    public int maxCores() {
+        logger.info("maxCores for entire inventory");
+        return getFullInventory().stream().mapToInt(Asset::getCores).max().orElse(0);
+    }
+
+
+    @Override
+    public int maxCores(final QueryCriteria criteria) {
         logger.info("maxCores " + criteria);
         return search(criteria)
                 .stream()
@@ -201,32 +262,40 @@ public class DefaultInventory implements Inventory {
                 .max().orElse(0);
     }
 
+    /**
+     * Convenience method to obtain the minMemory for the entire inventory
+     * without having to construct a query object list.
+     *
+     * @return int
+     */
     @Override
-    public Integer minMemory(final QueryCriteria criteria) {
+    public int minMemory() {
+        logger.info("minMemory for entire inventory");
+        return getFullInventory().stream().mapToInt(Asset::getMemory).min().orElse(0);
+    }
+
+    @Override
+    public int minMemory(final QueryCriteria criteria) {
         logger.info("minMemory " + criteria);
-        return search(criteria)
-                .stream()
-                .mapToInt(Asset::getMemory)
-                .min().orElse(0);
+        return search(criteria).stream().mapToInt(Asset::getMemory).min().orElse(0);
+    }
+
+    /**
+     * Convenience method to obtain the minCores for the entire inventory
+     * without having to construct a query object list.
+     *
+     * @return int
+     */
+    @Override
+    public int minCores() {
+        logger.info("minCores for entire inventory");
+        return getFullInventory().stream().mapToInt(Asset::getCores).min().orElse(0);
     }
 
     @Override
-    public Integer minCores(final QueryCriteria criteria) {
+    public int minCores(final QueryCriteria criteria) {
         logger.info("minCores " + criteria);
-        return search(criteria)
-                .stream()
-                .mapToInt(Asset::getCores)
-                .min().orElse(0);
-    }
-
-    @Override
-    public List<Asset> search(final QueryCriteria criteria) {
-
-        logger.info("search " + criteria);
-
-        List<Map.Entry<String, Asset>> resultList = filterAssets(criteria);
-
-        return assetsList(resultList);
+        return search(criteria).stream().mapToInt(Asset::getCores).min().orElse(0);
     }
 
     /**
@@ -239,6 +308,7 @@ public class DefaultInventory implements Inventory {
      * @return list of assets as deleted from the map
      */
     private List<Asset> deleteFromInventory(final QueryCriteria criteria) {
+        if (criteria == null || criteria.isEmpty()) return new ArrayList<>();
 
         logger.info("deleteFromInventory " + criteria);
         List<Map.Entry<String, Asset>> deleteList = filterAssets(criteria);
@@ -270,18 +340,48 @@ public class DefaultInventory implements Inventory {
     /**
      * Takes a list of map entries and returns just the values (assets) as a list
      * @param assets
-     * @return List<Asset>
+     * @return list of assets matching the query criteria
      */
     private List<Asset> assetsList(final List<Map.Entry<String, Asset>> assets) {
         return assets.stream().map(Map.Entry::getValue)
                 .collect(Collectors.toList());
     }
 
-    //
-    // Below here we provide endpoints to take a list of criteria
-    //
+    /**
+     * Basic search method taking a single QueryCriteria object.
+     * If the criteria object has no parameters (isEmpty) or is null, the search
+     * returns an empty list.
+     *
+     * @param criteria
+     * @return list of assets matching the query criteria
+     * */
     @Override
-    public List<Asset> search(final List<QueryCriteria> criteria) {
+    public List<Asset> search(@NotNull final QueryCriteria criteria) {
+        if (criteria == null || criteria.isEmpty()) return new ArrayList<>();
+
+        logger.info("search for assets matching criteria: " + criteria);
+
+        List<Map.Entry<String, Asset>> resultList = filterAssets(criteria);
+
+        return assetsList(resultList);
+    }
+
+    /**
+     * List the basic search method but takes a list of criteria allowing for
+     * more robust searching.
+     *
+     * If the list is null, the method returns an empty list (found nothing).
+     *
+     * If any entry in the list is null or isEmpty, the rules of the search
+     * method apply.
+     *
+     * @param criteria
+     * @return list of assets matching the query criteria
+     * */
+    @Override
+    public List<Asset> search(@NotNull final List<QueryCriteria> criteria) {
+        if (criteria == null) return new ArrayList<>();
+
         List<Asset> result = new ArrayList<>();
 
         for (QueryCriteria c : criteria) {
@@ -291,9 +391,21 @@ public class DefaultInventory implements Inventory {
         return result;
     }
 
+    /**
+     * Determines the total number of assets matching the list of criteria
+     * If the input list is null, a message is logged and a 0 is returned.
+     *
+     * @param criteria
+     * @return int
+     */
     @Override
-    public long totalAssets(final List<QueryCriteria> criteria) {
-        long result = 0;
+    public int totalAssets(@NotNull final List<QueryCriteria> criteria) {
+        int result = 0;
+
+        if (criteria == null) {
+            logger.info("Input criteria is null, returning 0.");
+            return result;
+        }
 
         for (QueryCriteria c : criteria) {
             result += totalAssets(c);
@@ -302,9 +414,21 @@ public class DefaultInventory implements Inventory {
         return result;
     }
 
+    /**
+     * Determines the total amount of memory based on the list criteria provided.
+     * If the input list is null, a message is logged and a 0 is returned.
+     *
+     * @param criteria
+     * @return int
+     */
     @Override
-    public Integer totalMemory(final List<QueryCriteria> criteria) {
-        Integer result = 0;
+    public int totalMemory(@NotNull final List<QueryCriteria> criteria) {
+        int result = 0;
+
+        if (criteria == null) {
+            logger.info("Input criteria is null, returning 0.");
+            return result;
+        }
 
         for (QueryCriteria c : criteria) {
             result += totalMemory(c);
@@ -313,9 +437,22 @@ public class DefaultInventory implements Inventory {
         return result;
     }
 
+    /**
+     * Determines the total number of cores based on the list criteria provided.
+     * If the input list is null, a message is logged and a 0 is returned.
+     *
+     * @param criteria
+     * @return int
+     */
     @Override
-    public Integer totalCores(final List<QueryCriteria> criteria) {
-        Integer result = 0;
+    public int totalCores(@NotNull final List<QueryCriteria> criteria) {
+        int result = 0;
+
+        // Short circuit is null
+        if (criteria == null) {
+            logger.info("Input criteria is null, returning 0.");
+            return result;
+        }
 
         for (QueryCriteria c : criteria) {
             result += totalCores(c);
@@ -324,9 +461,21 @@ public class DefaultInventory implements Inventory {
         return result;
     }
 
+    /**
+     * Determines the max amount of memory based on the list criteria provided.
+     * If the input list is null, a message is logged and a 0 is returned.
+     *
+     * @param criteria
+     * @return int
+     */
     @Override
-    public Integer maxMemory(final List<QueryCriteria> criteria) {
-        Integer result = 0;
+    public int maxMemory(@NotNull final List<QueryCriteria> criteria) {
+        int result = 0;
+
+        if (criteria == null) {
+            logger.info("Input criteria is null, returning 0.");
+            return 0;
+        }
 
         for (QueryCriteria c : criteria) {
             result = max(maxMemory(c), result);
@@ -335,9 +484,21 @@ public class DefaultInventory implements Inventory {
         return result;
     }
 
+    /**
+     * Determines the max number of cores based on the list criteria provided.
+     * If the input list is null, a message is logged and a 0 is returned.
+     *
+     * @param criteria
+     * @return int
+     */
     @Override
-    public Integer maxCores(final List<QueryCriteria> criteria) {
-        Integer result = 0;
+    public int maxCores(@NotNull final List<QueryCriteria> criteria) {
+        int result = 0;
+
+        if (criteria == null) {
+            logger.info("Input criteria is null, returning 0.");
+            return 0;
+        }
 
         for (QueryCriteria c : criteria) {
             result = max(maxCores(c), result);
@@ -346,10 +507,23 @@ public class DefaultInventory implements Inventory {
         return result;
     }
 
+    /**
+     * Determines the min amount of memory based on the list criteria provided.
+     * If the input list is null, a message is logged and a 0 is returned.
+     *
+     * @param criteria
+     * @return int
+     */
     @Override
-    public Integer minMemory(final List<QueryCriteria> criteria) {
+    public int minMemory(@NotNull final List<QueryCriteria> criteria) {
         // Set the initial value to the max integer
-        Integer result = Integer.MAX_VALUE;
+        int result = Integer.MAX_VALUE;
+
+        // Short circuit is null
+        if (criteria == null) {
+            logger.info("Input criteria is null, returning 0.");
+            return 0;
+        }
 
         for (QueryCriteria c : criteria) {
             result = min(minMemory(c), result);
@@ -358,10 +532,23 @@ public class DefaultInventory implements Inventory {
         return result;
     }
 
+    /**
+     * Determines the min number of cores based on the list criteria provided.
+     * If the input list is null, a message is logged and a 0 is returned.
+     *
+     * @param criteria
+     * @return int
+     */
     @Override
-    public Integer minCores(final List<QueryCriteria> criteria) {
+    public int minCores(@NotNull final List<QueryCriteria> criteria) {
         // Set the initial value to the max integer
-        Integer result = Integer.MAX_VALUE;
+        int result = Integer.MAX_VALUE;
+
+        // Short circuit is null
+        if (criteria == null) {
+            logger.info("Input criteria is null, returning 0.");
+            return 0;
+        }
 
         for (QueryCriteria c : criteria) {
             result = min(minCores(c), result);
@@ -370,8 +557,16 @@ public class DefaultInventory implements Inventory {
         return result;
     }
 
+    private boolean inValidCriteria(final QueryCriteria criteria) {
+        return criteria == null;
+    }
+
+    private boolean inValidCriteria(final List<QueryCriteria> criteria) {
+        return criteria == null;
+    }
+
     private static Predicate<Map.Entry<String, Asset>> includeOS(final QueryCriteria criteria) {
-        return criteria.getOs().isPresent() ? o -> o.getValue().getOS() == criteria.getOs().get() : o-> true;
+        return criteria.getOs().isPresent() ? o -> o.getValue().getOS() == criteria.getOs().get() : o -> true;
     }
 
     private static Predicate<Map.Entry<String, Asset>> includeCPU(final QueryCriteria criteria) {
@@ -387,4 +582,5 @@ public class DefaultInventory implements Inventory {
         return criteria.getCores().isPresent() ? o -> o.getValue().getCores().intValue() == criteria.getCores().get()
                 : o -> true;
     }
+
 }

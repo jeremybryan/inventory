@@ -51,6 +51,13 @@ public class QueryCriteria {
                 .toString();
     }
 
+    public boolean isEmpty() {
+        if (os == null && cpu == null && cores == null && memory == null) {
+            return true;
+        }
+        return false;
+    }
+
     private QueryCriteria(final Builder builder) {
         os = builder.os;
         cpu = builder.cpu;
@@ -72,22 +79,22 @@ public class QueryCriteria {
         private Builder() {}
 
         // Setter methods
-        public Builder setOS(final AssetTypes.OperatingSystem os)
+        public Builder setOS(AssetTypes.OperatingSystem os)
         {
             this.os = os;
             return this;
         }
-        public Builder setCPU(final AssetTypes.CPU cpu)
+        public Builder setCPU(AssetTypes.CPU cpu)
         {
             this.cpu = cpu;
             return this;
         }
-        public Builder setCore(final Integer cores)
+        public Builder setCore(Integer cores)
         {
             this.cores = cores;
             return this;
         }
-        public Builder setMemory(final Integer memory)
+        public Builder setMemory(Integer memory)
         {
             this.memory = memory;
             return this;
