@@ -32,9 +32,6 @@ import static org.apache.commons.lang3.math.NumberUtils.min;
  *
  * Empty query objects return empty results list, no search is performed in these cases.
  *
- * Look at protecting the calls...adjusting the search to return 0 on empty or null criteria
- * Define a return full inventory convenience method
- *
  */
 public class DefaultInventory implements Inventory {
 
