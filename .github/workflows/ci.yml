@@ -43,7 +43,7 @@ jobs:
     - name: Download JAR Artifact
       uses: actions/download-artifact@v4
       with:
-        name: app-jar
+        name: inventory-package
         path: target/
 
     - name: Login to Docker Hub
