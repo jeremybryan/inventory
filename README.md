@@ -76,3 +76,13 @@ types with minimal impact to the overall implementation.
 Simple logging was added to provide indication of activity. Currently this is all at the `info` level. This could and 
 should be adjusted when incorporated into an existing project to align with logging strategies for granularity 
 and volume. 
+
+
+#### Building
+This project uses a standards Maven based build and also has two Dockerfiles. Dockerfile is used within the context of the GitHub Actions build 
+and is used as part of a step to use the Maven build artifacts to create a container image. Dockerfile.full is will perform the build of the software 
+and package as a container. 
+
+To build a container locally using just the Dockerfile you must mount the local directory containing the jar file. Use the following:
+
+$  docker build . -t containername:version
