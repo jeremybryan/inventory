@@ -92,7 +92,7 @@ jobs:
       run: cosign sign --yes kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Verify container image signature with cosign
-      run: cosign verify --certificate-identity-regexp '.*' kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
+      run: cosign verify --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Generate build provenance attestation (SLSA) with cosign
       run: |
