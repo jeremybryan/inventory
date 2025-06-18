@@ -68,8 +68,6 @@ jobs:
           kaizencont/inventory:${{ github.sha }}
         cache-from: type=registry,ref=kaizencont/inventory:buildcache
         cache-to: type=registry,ref=kaizencont/inventory:buildcache,mode=max
-        outputs:
-          digest: ${{ steps.build-and-push.outputs.digest }}
 
     - name: Generate SBOM with Syft
       uses: anchore/sbom-action@v0
