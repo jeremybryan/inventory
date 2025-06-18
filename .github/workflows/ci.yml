@@ -88,17 +88,17 @@ jobs:
       run: cosign version
 
     - name: Sign the container image with cosign
-      run: cosign sign kaizencont/inventory:${{ github.sha }}
+      run: cosign sign kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Verify container image signature with cosign
-      run: cosign verify kaizencont/inventory:${{ github.sha }}
+      run: cosign verify kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Generate build provenance attestation (SLSA) with cosign
       run: |
         cosign attest --yes \
           --predicate-type slsaprovenance \
           --keyless \
-          kaizencont/inventory:${{ github.sha }}
+          kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Verify build provenance attestation
-      run: cosign verify-attestation --type slsaprovenance --keyless kaizencont/inventory:${{ github.sha }}
+      run: cosign verify-attestation --type slsaprovenance --keyless kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
