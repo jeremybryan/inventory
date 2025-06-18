@@ -79,3 +79,12 @@ jobs:
       with:
         name: inventory-sbom
         path: sbom.spdx.json
+
+    - name: Install cosign
+      uses: sigstore/cosign-installer@v3.4.0
+
+    - name: Sign the container image with cosign
+      run: cosign sign --yes --keyless kaizencont/inventory:${{ github.sha }}
+
+    - name: Verify container image signature with cosign
+      run: cosign verify --keyless kaizencont/inventory:${{ github.sha }}
