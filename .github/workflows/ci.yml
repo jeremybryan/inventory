@@ -67,6 +67,7 @@ jobs:
           kaizencont/inventory:${{ github.sha }}
         cache-from: type=registry,ref=kaizencont/inventory:buildcache
         cache-to: type=registry,ref=kaizencont/inventory:buildcache,mode=max
+
     - name: Generate SBOM with Syft
       uses: anchore/sbom-action@v0
       with:
@@ -83,8 +84,24 @@ jobs:
     - name: Install cosign
       uses: sigstore/cosign-installer@v3.4.0
 
+    - name: Check cosign version
+      run: cosign version
+
     - name: Sign the container image with cosign
       run: cosign sign --yes --keyless kaizencont/inventory:${{ github.sha }}
 
     - name: Verify container image signature with cosign
       run: cosign verify --keyless kaizencont/inventory:${{ github.sha }}
+
+    - name: Sign the container image with cosign
+      run: cosign sign --yes --keyless kaizencont/inventory:${{ github.sha }}
+
+    - name: Generate build provenance attestation (SLSA) with cosign
+      run: |
+        cosign attest --yes \
+          --predicate-type slsaprovenance \
+          --keyless \
+          kaizencont/inventory:${{ github.sha }}
+
+    - name: Verify build provenance attestation
+      run: cosign verify-attestation --type slsaprovenance --keyless kaizencont/inventory:${{ github.sha }}
