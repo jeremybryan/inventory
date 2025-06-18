@@ -58,6 +58,7 @@ jobs:
           buildkitd-flags: --debug
 
     - name: Build and push Docker image
+      id: build-and-push
       uses: docker/build-push-action@v6
       with:
         context: .
@@ -67,6 +68,8 @@ jobs:
           kaizencont/inventory:${{ github.sha }}
         cache-from: type=registry,ref=kaizencont/inventory:buildcache
         cache-to: type=registry,ref=kaizencont/inventory:buildcache,mode=max
+        outputs:
+          digest: ${{ steps.build-and-push.outputs.digest }}
 
     - name: Generate SBOM with Syft
       uses: anchore/sbom-action@v0
