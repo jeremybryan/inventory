@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
 
     steps:
     - uses: actions/checkout@v3
@@ -96,8 +100,8 @@ jobs:
 
     - name: Generate build provenance attestation (SLSA) with cosign
       run: |
-        cosign attest --yes \
-          --predicate-type slsaprovenance \
+        cosign attest \
+          --predicate --type slsaprovenance \
           --keyless \
           kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
