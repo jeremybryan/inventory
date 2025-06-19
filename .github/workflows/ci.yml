@@ -100,7 +100,10 @@ jobs:
 
     - name: Generate build provenance attestation (SLSA) with cosign
       run: |
-        cosign attest --predicate sbom.spdx.json --type slsaprovenance kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
+        cosign attest \
+        --predicate sbom.spdx.json --type slsaprovenance \
+        --builder-id https://github.com/${{ github.repository }} \
+        kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Verify build provenance attestation
       run: cosign verify-attestation --type slsaprovenance --keyless kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
