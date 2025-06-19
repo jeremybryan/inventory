@@ -126,12 +126,6 @@ jobs:
       run: cosign verify --key env://COSIGN_PUB --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' ghcr.io/${{ github.repository_owner }}/inventory@${{ steps.build-and-push.outputs.digest }}
       env:
         COSIGN_PUB: ${{secrets.COSIGN_PUB}}
-
-    # - name: Generate build provenance attestation (SLSA) with cosign
-    #   run: |
-    #     cosign attest \
-    #     --predicate sbom.spdx.json --type slsaprovenance \
-    #     --builder https://github.com/${{ github.repository }} \
         
     - name: Attest
       uses: actions/attest-build-provenance@v2
@@ -139,6 +133,3 @@ jobs:
         subject-name: ${{ github.repository_owner }}/inventory  
         subject-digest: ${{ steps.build-and-push.outputs.digest }}
         push-to-registry: true
-
-    # - name: Verify build provenance attestation
-    #   run: cosign verify-attestation --type slsaprovenance --keyless kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
