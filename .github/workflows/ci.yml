@@ -130,6 +130,6 @@ jobs:
     - name: Attest
       uses: actions/attest-build-provenance@v2
       with:
-        subject-name: ${{ github.repository_owner }}/inventory  
+        subject-name: ghcr.io/${{ github.repository_owner }}/inventory  
         subject-digest: ${{ steps.build-and-push.outputs.digest }}
         push-to-registry: true
