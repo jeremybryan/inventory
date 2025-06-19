@@ -89,8 +89,8 @@ jobs:
     - name: Install cosign
       uses: sigstore/cosign-installer@v3.5.0
 
-    - name: Check cosign version
-      run: cosign version
+    # - name: Check cosign version
+    #   run: cosign version
 
     - name: Sign the container image with cosign
       run: cosign sign --key env://COSIGN_KEY --yes kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
