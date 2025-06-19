@@ -87,7 +87,7 @@ jobs:
         path: sbom.spdx.json
 
     - name: Install cosign
-      uses: sigstore/cosign-installer@v3.4.0
+      uses: sigstore/cosign-installer@v3.5.0
 
     - name: Check cosign version
       run: cosign version
@@ -100,7 +100,7 @@ jobs:
 
     - name: Generate build provenance attestation (SLSA) with cosign
       run: |
-        cosign attest --predicate sbom.spdx.json --predicate-type slsaprovenance kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
+        cosign attest --predicate sbom.spdx.json --type slsaprovenance kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Verify build provenance attestation
       run: cosign verify-attestation --type slsaprovenance --keyless kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
