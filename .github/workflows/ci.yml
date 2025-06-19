@@ -99,8 +99,9 @@ jobs:
         COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
 
     - name: Verify container image signature with cosign
-      run: cosign verify --key cosign.pub --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
-      
+      run: cosign verify --key env://COSIGN_PUB --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
+      env:
+        COSIGN_KEY: ${{secrets.COSIGN_PUB}}
 
     # - name: Generate build provenance attestation (SLSA) with cosign
     #   run: |
