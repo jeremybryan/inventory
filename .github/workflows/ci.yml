@@ -93,7 +93,7 @@ jobs:
       run: cosign version
 
     - name: Sign the container image with cosign
-      run: cosign sign --yes kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
+      run: cosign sign --keyless --yes kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Verify container image signature with cosign
       run: cosign verify --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
@@ -101,8 +101,8 @@ jobs:
     - name: Generate build provenance attestation (SLSA) with cosign
       run: |
         cosign attest \
-          --predicate --type slsaprovenance \
-          --keyless \
+          --predicate sbom.spdx.json \
+          --predicate-type slsaprovenance \
           kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
 
     - name: Verify build provenance attestation
