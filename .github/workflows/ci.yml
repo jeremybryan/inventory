@@ -100,7 +100,7 @@ jobs:
     - name: Generate SBOM with Syft
       uses: anchore/sbom-action@v0
       with:
-        image: kaizencont/inventory:latest
+        image: ghcr.io/${{ github.repository_owner }}/inventory:latest
         format: spdx-json
         output-file: sbom.spdx.json
 
@@ -117,13 +117,13 @@ jobs:
     #   run: cosign version
 
     - name: Sign the container image with cosign
-      run: cosign sign --key env://COSIGN_KEY --yes kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
+      run: cosign sign --key env://COSIGN_KEY --yes ghcr.io/${{ github.repository_owner }}/inventory@${{ steps.build-and-push.outputs.digest }}
       env:
         COSIGN_KEY: ${{secrets.COSIGN_KEY}}
         COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
 
     - name: Verify container image signature with cosign
-      run: cosign verify --key env://COSIGN_PUB --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
+      run: cosign verify --key env://COSIGN_PUB --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' ghcr.io/${{ github.repository_owner }}/inventory@${{ steps.build-and-push.outputs.digest }}
       env:
         COSIGN_PUB: ${{secrets.COSIGN_PUB}}
 
@@ -136,7 +136,7 @@ jobs:
     - name: Attest
       uses: actions/attest-build-provenance@v2
       with:
-        subject-name: kaizencont/inventory  
+        subject-name: ${{ github.repository_owner }}/inventory  
         subject-digest: ${{ steps.build-and-push.outputs.digest }}
         push-to-registry: true
 
