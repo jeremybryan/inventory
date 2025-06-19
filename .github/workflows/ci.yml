@@ -109,11 +109,11 @@ jobs:
     #     --predicate sbom.spdx.json --type slsaprovenance \
     #     --builder https://github.com/${{ github.repository }} \
         
-    # - name: Attest
-    #   uses: actions/attest-build-provenance@v2
-    #   with:
-    #     subject-name: kaizencont/inventory  
-    #     subject-digest: ${{ steps.build-and-push.outputs.digest }}
+    - name: Attest
+      uses: actions/attest-build-provenance@v2
+      with:
+        subject-name: kaizencont/inventory  
+        subject-digest: ${{ steps.build-and-push.outputs.digest }}
 
     # - name: Verify build provenance attestation
     #   run: cosign verify-attestation --type slsaprovenance --keyless kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
