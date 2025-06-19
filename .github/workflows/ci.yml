@@ -118,6 +118,7 @@ jobs:
       with:
         subject-name: kaizencont/inventory  
         subject-digest: ${{ steps.build-and-push.outputs.digest }}
+        push-to-registry: true
 
     # - name: Verify build provenance attestation
     #   run: cosign verify-attestation --type slsaprovenance --keyless kaizencont/inventory@${{ steps.build-and-push.outputs.digest }}
