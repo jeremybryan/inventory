@@ -44,6 +44,16 @@ jobs:
       packages: write
       id-token: write
       attestations: write
+    env:
+      # This set is to build and push to Docker Hub
+      # REGISTRY_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+      # IMAGE_NAME: kaizencont/inventory
+      # REGISTRY_PASS: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # This set is to build and push to GitHub Container Registry
+      REGISTRY_USER: ${{ github.actor }}
+      IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/inventory
+      REGISTRY_PASS: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - name: Checkout
@@ -65,8 +75,8 @@ jobs:
       uses: docker/login-action@v2
       with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ env }}
+          password: ${{ env }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -92,16 +102,16 @@ jobs:
         context: .
         push: true
         tags: |
-          ghcr.io/${{ github.repository_owner }}/inventory:latest
-          ghcr.io/${{ github.repository_owner }}/inventory:${{ github.sha }}
-        cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/inventory:buildcache
-        cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/inventory:buildcache,mode=max
+          ${{ env.IMAGE_NAME}}:latest
+          ${{ env.IMAGE_NAME}}:${{ github.sha }}
+        cache-from: type=registry,ref=${{ env.IMAGE_NAME}}:buildcache
+        cache-to: type=registry,ref=${{ env.IMAGE_NAME}}:buildcache,mode=max
 
 
     - name: Generate SBOM with Syft
       uses: anchore/sbom-action@v0
       with:
-        image: ghcr.io/${{ github.repository_owner }}/inventory:latest
+        image: ${{ env.IMAGE_NAME}}:latest
         format: spdx-json
         output-file: sbom.spdx.json
 
@@ -118,7 +128,7 @@ jobs:
     #   run: cosign version
 
     - name: Sign the container image with cosign
-      run: cosign sign --key env://COSIGN_KEY --yes ghcr.io/${{ github.repository_owner }}/inventory@${{ steps.build-and-push.outputs.digest }}
+      run: cosign sign --key env://COSIGN_KEY --yes ${{ env.IMAGE_NAME}}@${{ steps.build-and-push.outputs.digest }}
       env:
         COSIGN_KEY: ${{secrets.COSIGN_KEY}}
         COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
@@ -131,6 +141,6 @@ jobs:
     - name: Attest
       uses: actions/attest-build-provenance@v2
       with:
-        subject-name: ghcr.io/${{ github.repository_owner }}/inventory  
+        subject-name: ${{ env.IMAGE_NAME}} 
         subject-digest: ${{ steps.build-and-push.outputs.digest }}
         push-to-registry: true
