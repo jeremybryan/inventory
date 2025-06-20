@@ -46,14 +46,14 @@ jobs:
       attestations: write
     env:
       # This set is to build and push to Docker Hub
-      # REGISTRY_USER: ${{ secrets.DOCKERHUB_USERNAME }}
-      # IMAGE_NAME: kaizencont/inventory
-      # REGISTRY_PASS: ${{ secrets.DOCKERHUB_TOKEN }}
+      REGISTRY_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+      IMAGE_NAME: kaizencont/inventory
+      REGISTRY_PASS: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # This set is to build and push to GitHub Container Registry
-      REGISTRY_USER: ${{ github.actor }}
-      IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/inventory
-      REGISTRY_PASS: ${{ secrets.GITHUB_TOKEN }}
+      # REGISTRY_USER: ${{ github.actor }}
+      # IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/inventory
+      # REGISTRY_PASS: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - name: Checkout
