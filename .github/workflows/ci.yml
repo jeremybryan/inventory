@@ -73,7 +73,7 @@ jobs:
           echo "REGISTRY_URL=docker.io" >> $GITHUB_ENV
           echo "REGISTRY_USER=${{ secrets.DOCKERHUB_USERNAME }}" >> $GITHUB_ENV
           echo "REGISTRY_PASS=${{ secrets.DOCKERHUB_TOKEN }}" >> $GITHUB_ENV
-          echo "IMAGE_NAME=kaizencont/inventory" >> $GITHUB_ENV
+          echo "IMAGE_NAME=docker.io/kaizencont/inventory" >> $GITHUB_ENV
         fi
       env:
         REGISTRY_PROVIDER: ${{ env.REGISTRY_PROVIDER }}
