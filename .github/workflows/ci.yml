@@ -137,7 +137,7 @@ jobs:
         COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
 
     - name: Verify container image signature with cosign
-      run: cosign verify --key env://COSIGN_PUB --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' ghcr.io/${{ github.repository_owner }}/inventory@${{ steps.build-and-push.outputs.digest }}
+      run: cosign verify --key env://COSIGN_PUB --certificate-identity-regexp '.*' --certificate-oidc-issuer-regexp '.*' ${{ env.IMAGE_NAME}}@${{ steps.build-and-push.outputs.digest }}
       env:
         COSIGN_PUB: ${{secrets.COSIGN_PUB}}
         
