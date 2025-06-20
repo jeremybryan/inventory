@@ -49,8 +49,11 @@ jobs:
       REGISTRY_USER: ${{ secrets.DOCKERHUB_USERNAME }}
       IMAGE_NAME: kaizencont/inventory
       REGISTRY_PASS: ${{ secrets.DOCKERHUB_TOKEN }}
+      REGISTRY_URL: docker.io
+
 
       # This set is to build and push to GitHub Container Registry
+      # REGISTRY_URL: ghcr.io
       # REGISTRY_USER: ${{ github.actor }}
       # IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/inventory
       # REGISTRY_PASS: ${{ secrets.GITHUB_TOKEN }}
@@ -74,7 +77,7 @@ jobs:
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY_URL}}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASS }}
 
